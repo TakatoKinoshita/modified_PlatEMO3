@@ -469,9 +469,9 @@ classdef module_exp < handle
                                     if ~diff1(a) || mdata(valid(a))==mdata(nA)
                                         obj.app.table.Data{p,end-nA+valid(a)} = [obj.app.table.Data{p,end-nA+valid(a)},' ='];
                                     elseif mdata(valid(a))<mdata(nA)&&minMet || mdata(valid(a))>mdata(nA)&&~minMet
-                                        obj.app.table.Data{p,end-nA+valid(a)} = [obj.app.table.Data{p,end-nA+valid(a)},' +'];
-                                    else
                                         obj.app.table.Data{p,end-nA+valid(a)} = [obj.app.table.Data{p,end-nA+valid(a)},' −'];
+                                    else
+                                        obj.app.table.Data{p,end-nA+valid(a)} = [obj.app.table.Data{p,end-nA+valid(a)},' +'];
                                     end
                                     if obj.app.dropC(5).Value == 3 && ~diff2(a)
                                         styleLoc = [styleLoc;p,size(obj.app.table.Data,2)-nA+valid(a)+(a>=best)];
