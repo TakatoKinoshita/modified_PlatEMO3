@@ -278,7 +278,8 @@ classdef module_exp < handle
                         if ~isempty(runIndex) && ~isParallel
                             try
                                 for r = runIndex
-                                    ALG(a).Solve(PRO(p));
+                                    %ALG(a).Solve(PRO(p));
+                                    FixSolve(ALG(a),PRO(p),r);
                                     obj.ResultSave(p,a,r,ALG(a).result,ALG(a).metric);
                                     obj.ResultLoad(p,a,r);
                                     obj.TableUpdate([],[],p);
@@ -294,7 +295,7 @@ classdef module_exp < handle
                         % Run algorithms in parallel
                         elseif ~isempty(runIndex)
                             try
-                                Future = arrayfun(@(s)parfeval(@parallelFcn,2,ALG(a),PRO(p)),runIndex);
+                                Future = arrayfun(@(s)parfeval(@parallelFcn,2,ALG(a),PRO(p),s),runIndex);
                                 while ~all([Future.Read])
                                     drawnow();
                                     if strcmp(obj.app.buttonC(2).Enable,'off')
@@ -639,10 +640,16 @@ function score = Feasiblerate(Population,~)
 end
 
 %% Function for parallelization
-function [result,metric] = parallelFcn(Algorithm,Problem)
-    Algorithm.Solve(Problem);
+function [result,metric] = parallelFcn(Algorithm,Problem,seed)
+    FixSolve(Algorithm, Problem, seed);
     result = Algorithm.result;
     metric = Algorithm.metric;
+end
+
+%% Fix seed and Run
+function FixSolve(Algorithm, Problem, seed)
+    rng(seed);
+    Algorithm.Solve(Problem);
 end
 
 %% Save the table to Excel
