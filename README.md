@@ -21,3 +21,5 @@ Unicode対応しているTex/LaTex環境を使用する場合は，エディタ�
 
 
 ### 予定
+
+* Nemeyi検定
